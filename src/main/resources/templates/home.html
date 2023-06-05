@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog :: Home</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<header>
+    <h1></h1>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a th:href="@{/posts/new}">Create New Post</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a th:href="@{/register}">Register</a></li>
+            <li><a th:href="@{/login}">Login</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <h1>Inovative-Blog</h1>
+    <hr />
+
+    <div class="posts-container">
+
+        <div class="post" th:each="post : ${posts}">
+            <h2><a th:href="@{'/posts/' + ${post.id}}" th:text="${post.title}">Title</a></h2>
+            <h5 th:text="'Written by ' + ${post.account.firstName}">Account First Name</h5>
+            <h5 th:text="'Published at ' + ${post.createdAt}">Created At</h5>
+            <h5 th:text="'Updated at ' + ${post.modifiedAt}">Modified At</h5>
+            <p th:text="${post.body}">body text</p>
+            <br>
+        </div>
+    </div>
+    <hr />
+    <ul sec:authorize="!isAuthenticated()">
+        <li><a th:href="@{/register}">Register</a></li>
+        <li><a th:href="@{/login}">Login</a></li>
+    </ul>
+
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}"
+              method="POST">
+            <div>
+                <label>Hi, <span sec:authentication="name">Username</span></label>
+            </div>
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+
+
+</div>
+<footer>
+    &copy; <em></em>2023,Hari Narayan Shukla
+</footer>
+
+</body>
+</html>
